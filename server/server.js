@@ -17,15 +17,15 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
 	console.log('new user connected');
 
-	socket.emit('newMessage', {
-		from: 'support@bilal-h.com',
-		text: 'demo text for chat app',
-		createdAt: 7996485
+	socket.on('createMessage', (message) => {
+		//console.log('createMessage', message)
+		io.emit('newMessage', {
+			from: message.from,
+			text: message.text,
+			createdAt: new Date().getTime()
+		})
 	})
 
-	socket.on('createMessage', (newMessage) => {
-		console.log('createMessage', newMessage)
-	})
 
 	socket.on('disconnect', function() {
 		console.log('user disconnected');
